@@ -589,15 +589,17 @@ app-header, app-footer {
 .modal {
     display: none; 
     position: fixed;
-    z-index: 2000;
+    z-index: 99999; /* Un número MUY alto para que esté por encima de todo */
     left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro más suave */
-    /* Usamos Flexbox para centrar la caja perfectamente */
+    width: 100vw; /* 100% del ancho de la ventana */
+    height: 100vh; /* 100% del alto de la ventana */
+    background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro */
     align-items: center; 
     justify-content: center;
+    padding: 15px; /* Margen para que no toque los bordes en el celular */
+    box-sizing: border-box;
+    overflow-y: auto; /* Permite hacer scroll si el perfil es muy largo */
 }
 
 /* Esta clase se activa con JS para mostrar el modal */
@@ -607,13 +609,16 @@ app-header, app-footer {
 
 .modal-content {
     background-color: #FFFFFF;
-    padding: 30px;
+    padding: 25px;
     border-radius: 15px;
-    width: 90%; /* Ocupa el 90% en celulares */
-    max-width: 450px; /* Pero máximo 450px en PC */
+    width: 100%;
+    max-width: 600px; /* Ancho máximo en PC */
+    max-height: 90vh; /* Evita que se salga de la pantalla del celular */
+    overflow-y: auto; /* Scroll interno si hay muchos cursos */
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     position: relative;
-    animation: aparecerModal 0.3s ease-out; /* Pequeña animación */
+    margin: auto; /* Centrado vertical */
+    -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
 }
 
 /* Animación para que aparezca suavemente */
