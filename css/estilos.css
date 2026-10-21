@@ -1338,3 +1338,67 @@ app-header, app-footer {
     display: block;
     margin-bottom: 3px;
 }
+
+
+
+
+
+/* ==========================================
+   ESTILOS REPORTE GERENCIAL
+   ========================================== */
+.kpi-grid-gerencial {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.kpi-card {
+    background: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border-left: 5px solid var(--mc-red-soft);
+    text-align: center;
+}
+
+.kpi-title { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+.kpi-card h3 { font-size: 2rem; margin: 5px 0; color: var(--text-main); }
+.kpi-sub { font-size: 0.75rem; color: #A0AEC0; }
+
+.stats-layout-dos-columnas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.panel-gerencial {
+    background: #FFFFFF;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+}
+
+.panel-gerencial h3 { font-size: 1.1rem; color: var(--text-main); margin-bottom: 5px; }
+.panel-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; border-bottom: 1px dashed #E2E8F0; padding-bottom: 10px; }
+
+/* Lista de alertas de expertos */
+.lista-alertas { display: flex; flex-direction: column; gap: 10px; }
+.alerta-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: #FFF5F5;
+    border-radius: 8px;
+    border-left: 4px solid var(--mc-red-soft);
+}
+.alerta-nombre { font-weight: 600; color: var(--text-main); font-size: 0.9rem; }
+.alerta-dias { font-size: 0.8rem; color: var(--mc-red-soft); font-weight: 700; background: #FFFFFF; padding: 4px 10px; border-radius: 20px; }
+
+/* Barras de progreso de entrenantes */
+.lista-barras { display: flex; flex-direction: column; gap: 15px; }
+.barra-item { display: flex; flex-direction: column; gap: 5px; }
+.barra-label { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; color: var(--text-main); }
+.barra-track { width: 100%; height: 10px; background: #E2E8F0; border-radius: 10px; overflow: hidden; }
+.barra-fill { height: 100%; background: var(--mc-yellow-dark); border-radius: 10px; }
