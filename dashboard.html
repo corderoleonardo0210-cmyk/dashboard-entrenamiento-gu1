@@ -242,9 +242,53 @@
         <!-- VISTA 3: ESTADÍSTICAS (Placeholder)        -->
         <!-- ========================================== -->
         <section id="view-estadisticas" class="dashboard-view">
-            <div class="placeholder-box">
-                <h2>📈 Estadísticas del Equipo</h2>
-                <p>Aquí irán los gráficos de progreso general, distribución de cargos y rendimiento.</p>
+            <div class="stats-header">
+                <h2>📊 Reporte Gerencial de Entrenamiento</h2>
+                <p>Métricas de rendimiento, cumplimiento y avance de la plantilla.</p>
+            </div>
+
+            <!-- BLOQUE 1: SEMÁFORO DE PLANTILLA -->
+            <div class="kpi-grid-gerencial">
+                <div class="kpi-card">
+                    <span class="kpi-title">Entrenantes</span>
+                    <h3 id="gerente-entrenantes">0</h3>
+                    <span class="kpi-sub">En formación</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-title">Expertos</span>
+                    <h3 id="gerente-expertos">0</h3>
+                    <span class="kpi-sub">Certificados</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-title">LEC's</span>
+                    <h3 id="gerente-lecs">0</h3>
+                    <span class="kpi-sub">Líderes de Experiencia</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-title">Entrenadores</span>
+                    <h3 id="gerente-entrenadores">0</h3>
+                    <span class="kpi-sub">Formadores</span>
+                </div>
+            </div>
+
+            <div class="stats-layout-dos-columnas">
+                <!-- BLOQUE 2: RADAR DE EXPERTOS -->
+                <div class="panel-gerencial">
+                    <h3>⚠️ Radar de Verificación Mensual (Expertos)</h3>
+                    <p class="panel-desc">Expertos que necesitan su verificación mensual (hace más de 30 días).</p>
+                    <div id="lista-expertos-verificar" class="lista-alertas">
+                        <!-- JS inyectará la lista aquí -->
+                    </div>
+                </div>
+
+                <!-- BLOQUE 3: AVANCE DE ENTRENANTES -->
+                <div class="panel-gerencial">
+                    <h3>🌱 Progreso de Entrenantes</h3>
+                    <p class="panel-desc">Avance en la ruta de formación del personal nuevo.</p>
+                    <div id="lista-progreso-entrenantes" class="lista-barras">
+                        <!-- JS inyectará las barras aquí -->
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -310,8 +354,7 @@
         <div class="modal-content profile-modal-content">
             <span class="close-modal" id="close-profile-modal">&times;</span>
             
-            <!-- ⚠️ AQUÍ ESTABA EL ERROR (tenías <<div). Ahora está corregido: -->
-            <div class="profile-header">
+            <<div class="profile-header">
                 <div style="display: flex; align-items: center; gap: 15px;">
                     <h2 id="profile-name">Nombre</h2>
                     <span id="profile-position" class="badge">Cargo</span>
