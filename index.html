@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- BLOQUE 1: METADATOS -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Entrenamiento | GUI1</title>
+    
+    <!-- Fuentes de Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Enlace a tus estilos CSS -->
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+    <!-- BLOQUE 2: HEADER MODULAR (Se inyecta desde components.js) -->
+    <app-header></app-header>
+
+    <!-- BLOQUE 3: HERO SECTION (La primera impresión) -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Bienvenido al Portal de Entrenamiento</h1>
+            <p>La herramienta oficial para gestionar, evaluar y potenciar el talento de nuestro restaurante. Centraliza el progreso de los cursos y visualiza el crecimiento de tu equipo.</p>
+            
+            <!-- Botón de Acción Principal (Lleva a la página de datos) -->
+            <a href="./dashboard.html" class="btn-primary btn-large">Ingresar al Dashboard de Personal ➔</a>
+        </div>
+    </section>
+
+    <!-- BLOQUE 4: SECCIÓN DE CARACTERÍSTICAS (¿Qué se puede hacer?) -->
+    <section class="features-section">
+        <h2>¿Qué puedes hacer en esta plataforma?</h2>
+        
+        <div class="features-grid">
+            <!-- Tarjeta 1 -->
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Visualizar Progreso</h3>
+                <p>Consulta el porcentaje de avance de cada colaborador en sus cursos obligatorios y de especialidad.</p>
+            </div>
+
+            <!-- Tarjeta 2 -->
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3>Filtros Inteligentes</h3>
+                <p>Encuentra rápidamente a tus Entrenantes, Expertos, LEC's o Entrenadores con solo un clic.</p>
+            </div>
+
+            <!-- Tarjeta 3 -->
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h3>Control de Fechas</h3>
+                <p>Revisa cuándo fue la última verificación aprobada y planifica los re-entrenamientos a tiempo.</p>
+            </div>
+
+            <!-- Tarjeta 4 -->
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>Reportes de Gestión</h3>
+                <p>Genera reportes visuales para presentar en reuniones de gerencia o auditorías internas.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOQUE 5: FOOTER MODULAR (Se inyecta desde components.js) -->
+    <app-footer></app-footer>
+
+    <!-- BLOQUE 6: SCRIPTS -->
+    <!-- Cargamos el archivo JS que contiene el Header y Footer -->
+    <script src="./js/components.js"></script>
+
+</body>
+</html>

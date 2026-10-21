@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | GUI1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body class="dashboard-body">
+
+    <!-- BLOQUE 1: MENÚ LATERAL (SIDEBAR) -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon">M</div>
+            <h2>GU1 Admin</h2>
+        </div>
+
+        <nav class="sidebar-nav">
+            <!-- El atributo data-target nos dirá qué sección mostrar en JS -->
+            <a href="#" class="nav-item active" data-target="view-personal">
+                <span class="icon">👥</span> Personal
+            </a>
+            <a href="#" class="nav-item" data-target="view-cursos">
+                <span class="icon">📚</span> Catálogo de Cursos
+            </a>
+            <a href="#" class="nav-item" data-target="view-estadisticas">
+                <span class="icon">📈</span> Estadísticas
+            </a>
+            <a href="#" class="nav-item" data-target="view-alertas">
+                <span class="icon">⚠️</span> Alertas y Vencimientos
+            </a>
+            
+            <hr class="sidebar-divider">
+            
+            <a href="./index.html" class="nav-item text-muted">
+                <span class="icon">🚪</span> Volver al Inicio
+            </a>
+        </nav>
+    </aside>
+
+        <!-- BLOQUE 2: ÁREA DE CONTENIDO PRINCIPAL -->
+    <main class="dashboard-main">
+        
+        <!-- HEADER INTERNO DEL DASHBOARD -->
+        <header class="dashboard-topbar">
+            <h1 id="current-view-title">Gestión de Personal</h1>
+            
+            <!-- Contenedor de la derecha (Perfil + Botón Nuevo) -->
+            <div class="topbar-actions">
+                <div class="user-profile">
+                    <span>Modo Entrenador</span>
+                </div>
+                
+                <!-- BOTÓN PARA ABRIR EL MODAL DEL CRUD -->
+                <button id="btn-add-worker" class="btn-primary btn-small">
+                    + Nuevo Trabajador
+                </button>
+            </div>
+        </header>
+
+        <!-- ========================================== -->
+        <!-- VISTA 1: PERSONAL (La que ya teníamos)     -->
+        <!-- ========================================== -->
+        <section id="view-personal" class="dashboard-view active">
+        
+                    <!-- NUEVO BLOQUE: PANEL DE ESTADÍSTICAS (KPIs) -->
+            <section class="stats-panel">
+                <!-- Total General -->
+                <div class="stat-card total-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <span class="stat-title">Plantilla Total</span>
+                        <h3 class="stat-value" id="kpi-total">0/35</h3>
+                    </div>
+                </div>
+
+                <!-- Entrenantes -->
+                <div class="stat-card">
+                    <div class="stat-icon" style="color: #007BC0;">🌱</div>
+                    <div class="stat-info">
+                        <span class="stat-title">Entrenantes</span>
+                        <h3 class="stat-value" id="kpi-entrenantes">0</h3>
+                    </div>
+                </div>
+
+                <!-- Expertos -->
+                <div class="stat-card">
+                    <div class="stat-icon" style="color: #A17B00;">⭐</div>
+                    <div class="stat-info">
+                        <span class="stat-title">Expertos</span>
+                        <h3 class="stat-value" id="kpi-expertos">0</h3>
+                    </div>
+                </div>
+
+                <!-- LEC -->
+                <div class="stat-card">
+                    <div class="stat-icon" style="color: #6A00B0;">🎧</div>
+                    <div class="stat-info">
+                        <span class="stat-title">LEC's</span>
+                        <h3 class="stat-value" id="kpi-lec">0</h3>
+                    </div>
+                </div>
+
+                <!-- Entrenadores -->
+                <div class="stat-card">
+                    <div class="stat-icon" style="color: var(--mc-red-soft);">🎓</div>
+                    <div class="stat-info">
+                        <span class="stat-title">Entrenadores</span>
+                        <h3 class="stat-value" id="kpi-entrenadores">0</h3>
+                    </div>
+                </div>
+            </section>  
+
+            <!-- Filtros y Buscador -->
+            <div class="filters-section">
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-input" placeholder="Buscar por nombre o apellido...">
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-cargo="TODOS">Todos</button>
+                    <button class="filter-btn" data-cargo="ENTRENANTE">Entrenantes</button>
+                    <button class="filter-btn" data-cargo="EXPERTO">Expertos</button>
+                    <button class="filter-btn" data-cargo="LEC">LEC's</button>
+                    <button class="filter-btn" data-cargo="ENTRENADOR">Entrenadores</button>
+                </div>
+            </div>
+
+            <!-- Grilla donde JS inyectará las tarjetas -->
+            <div id="cards-grid" class="cards-grid">
+                <!-- Las tarjetas se generan con JS -->
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VISTA 2: CATÁLOGO Y RUTAS DE FORMACIÓN     -->
+        <!-- ========================================== -->
+        <section id="view-cursos" class="dashboard-view">
+            
+            <div class="path-header">
+                <h2>Rutas de Formación (Learning Paths)</h2>
+                <p>Visualiza el camino estructurado para certificar a tu equipo.</p>
+            </div>
+
+            <!-- RUTAS (Mantenemos el diseño bonito) -->
+            <div class="paths-grid">
+                <div class="path-card path-service">
+                    <div class="path-badge">25 Días</div>
+                    <h3>Ruta de Servicio</h3>
+                    <p class="path-description">Atención al cliente, mostrador, McCafé y AutoMac.</p>
+                    <div class="path-timeline">
+                        <div class="timeline-item"><span class="dot"></span> Bebidas y Postres (3d)</div>
+                        <div class="timeline-item"><span class="dot"></span> Lobby y Kiosco (3d)</div>
+                        <div class="timeline-item"><span class="dot"></span> Mostrador: Pedir y Pagar (4d)</div>
+                        <div class="timeline-item"><span class="dot"></span> Mostrador: Preparar y Entregar (4d)</div>
+                        <div class="timeline-item"><span class="dot"></span> McDelivery (3d)</div>
+                        <div class="timeline-item"><span class="dot"></span> AutoMac: Pedir y Pagar (4d)</div>
+                        <div class="timeline-item"><span class="dot"></span> AutoMac: Preparar y Entregar (4d)</div>
+                    </div>
+                </div>
+
+                <div class="path-card path-production">
+                    <div class="path-badge">15 Días</div>
+                    <h3>Ruta de Producción</h3>
+                    <p class="path-description">Cocina, parrilla, fritos y preparación de menú.</p>
+                    <div class="path-timeline">
+                        <div class="timeline-item"><span class="dot"></span> Papas Fritas & Hash Browns (2d)</div>
+                        <div class="timeline-item"><span class="dot"></span> Productos Fritos (2d)</div>
+                        <div class="timeline-item"><span class="dot"></span> Preparación del menú regular (5d)</div>
+                        <div class="timeline-item"><span class="dot"></span> Preparación de los ingredientes (2d)</div>
+                        <div class="timeline-item"><span class="dot"></span> Parrilla (4d)</div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="section-divider">
+
+            <!-- NUEVO MÓDULO: EVALUACIÓN DE RUTA POR TRABAJADOR -->
+            <div class="evaluator-section">
+                <div class="courses-list-header">
+                    <h2>Evaluación de Progreso por Trabajador</h2>
+                    <p>Busca a un colaborador para registrar cómo va en sus cursos.</p>
+                </div>
+
+                <!-- Buscador de Trabajador -->
+                <div class="evaluator-search">
+                    <div class="search-group">
+                        <label for="search-worker-route">Buscar Trabajador:</label>
+                        <select id="search-worker-route">
+                            <option value="">-- Seleccione un trabajador --</option>
+                            <!-- JS llenará esto automáticamente -->
+                        </select>
+                    </div>
+
+                    <!-- NUEVO FILTRO POR CARGO -->
+                    <div class="search-group">
+                        <label for="filter-cargo-route">Filtrar por Cargo:</label>
+                        <select id="filter-cargo-route">
+                            <option value="TODOS">Todos los cargos</option>
+                            <option value="ENTRENANTE">Entrenantes</option>
+                            <option value="EXPERTO">Expertos</option>
+                            <option value="LEC">LEC's</option>
+                            <option value="ENTRENADOR">Entrenadores</option>
+                        </select>
+                    </div>
+
+                    <button id="btn-load-route" class="btn-primary">Cargar Camino de Entrenamiento</button>
+                </div>
+
+                <!-- Contenedor donde se mostrará la tabla de cursos (Oculto hasta que se seleccione a alguien) -->
+                <div id="route-evaluator-container" class="route-evaluator-container" style="display: none;">
+                    <div class="worker-evaluator-header">
+                        <h3 id="evaluator-worker-name">Nombre del Trabajador</h3>
+                        <div style="display: flex; gap: 10px;">
+                            <button id="btn-print-route" class="btn-secondary btn-small">🖨️ Imprimir</button>
+                            <button id="btn-save-route" class="btn-primary btn-small">💾 Guardar Progreso</button>
+                        </div>
+                    </div>
+
+                    <!-- Aquí JS inyectará la lista de cursos para evaluar -->
+                    <div id="evaluator-courses-list" class="evaluator-courses-list">
+                        <!-- Ejemplo de cómo se verá una fila (JS lo genera):
+                        <div class="eval-row">
+                            <span class="eval-course-name">Hospitalidad 1</span>
+                            <select class="eval-status" data-curso="Hospitalidad 1">
+                                <option value="POR COMENZAR">Por Comenzar</option>
+                                <option value="REALIZADO">Realizado</option>
+                                <option value="APROBADO">Aprobado</option>
+                                <option value="VERIFICAR">✈️ Verificar</option>
+                                <option value="VOLVER A INTENTAR">Volver a Intentar</option>
+                            </select>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VISTA 3: ESTADÍSTICAS (Placeholder)        -->
+        <!-- ========================================== -->
+        <section id="view-estadisticas" class="dashboard-view">
+            <div class="placeholder-box">
+                <h2>📈 Estadísticas del Equipo</h2>
+                <p>Aquí irán los gráficos de progreso general, distribución de cargos y rendimiento.</p>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VISTA 4: ALERTAS (Placeholder)             -->
+        <!-- ========================================== -->
+        <section id="view-alertas" class="dashboard-view">
+            <div class="placeholder-box">
+                <h2>⚠️ Alertas y Vencimientos</h2>
+                <p>Aquí se listarán los trabajadores con cursos vencidos o que llevan mucho tiempo sin actividad.</p>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- MODAL DEL FORMULARIO (Oculto por defecto) -->
+    <div id="worker-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <h2 id="modal-title">Agregar Nuevo Trabajador</h2>
+            
+            <!-- FORMULARIO CRUD -->
+            <form id="worker-form">
+                <!-- ID oculto: sirve para saber si estamos editando o creando -->
+                <input type="hidden" id="worker-id">
+
+                <div class="form-group">
+                    <label for="worker-name">Nombre Completo:</label>
+                    <input type="text" id="worker-name" required placeholder="Ej. Abigmar Mejias">
+                </div>
+
+                <div class="form-group">
+                    <label for="worker-position">Cargo:</label>
+                    <select id="worker-position" required>
+                        <option value="ENTRENANTE">Entrenante</option>
+                        <option value="EXPERTO">Experto</option>
+                        <option value="LEC">LEC</option>
+                        <option value="ENTRENADOR">Entrenador</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="worker-date">Última Verificación:</label>
+                    <input type="date" id="worker-date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="worker-ingreso">Fecha de Ingreso:</label>
+                    <input type="date" id="worker-ingreso" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="btn-cancel" class="btn-secondary">Cancelar</button>
+                    <button type="submit" id="btn-save" class="btn-primary">Guardar Trabajador</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DEL PERFIL 360 -->
+    <div id="profile-modal" class="modal">
+        <div class="modal-content profile-modal-content">
+            <span class="close-modal" id="close-profile-modal">&times;</span>
+            
+            <<div class="profile-header">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <h2 id="profile-name">Nombre</h2>
+                    <span id="profile-position" class="badge">Cargo</span>
+                </div>
+                <!-- NUEVO BOTÓN DE IMPRIMIR -->
+                <button id="btn-print-profile" class="btn-secondary btn-small">🖨️ Imprimir Perfil</button>
+            </div>
+
+            <div class="profile-info">
+                <p><strong>Ingreso:</strong> <span id="profile-ingreso">--/--/----</span></p>
+                <p><strong>Antigüedad:</strong> <span id="profile-antiguedad">0 días</span></p>
+            </div>
+
+            <hr>
+
+            <div class="profile-courses">
+                <h3>Progreso y Observaciones</h3>
+                <div id="profile-courses-list">
+                    <!-- Aquí JavaScript inyectará los cursos -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CDN de Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Configuración de Supabase -->
+<script src="./js/supabase-config.js"></script>
+    
+    <!-- BLOQUE 3: SCRIPTS -->
+    <script src="./js/data.js"></script>
+    <script src="./js/app.js"></script>
+    <script src="./js/components.js"></script> <!-- Por si decides usar el footer aquí luego -->
+    <script src="./js/crud.js"></script>
+
+</body>
+</html>
