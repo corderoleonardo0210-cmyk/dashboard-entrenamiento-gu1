@@ -32,6 +32,7 @@ async function cargarTrabajadoresDesdeNube() {
 // 2. DIBUJAR TARJETAS DE PERSONAL
 // ==========================================
 function renderizarTarjetas(trabajadores) {
+    if (!cardsGrid) return;
     cardsGrid.innerHTML = '';
 
     if (trabajadores.length === 0) {
@@ -110,23 +111,29 @@ window.abrirPerfil360 = async function(id) {
     const trabajador = trabajadoresGlobal.find(t => t.id == id);
     if (!trabajador) return;
 
-    document.getElementById('profile-name').textContent = trabajador.nombre;
+    // 1. Llenar datos básicos (con validaciones por si falta el HTML)
+    if(document.getElementById('profile-name')) document.getElementById('profile-name').textContent = trabajador.nombre;
+    
     const badge = document.getElementById('profile-position');
-    badge.textContent = trabajador.cargo;
-    badge.className = `badge badge-${trabajador.cargo.toLowerCase()}`;
+    if(badge) {
+        badge.textContent = trabajador.cargo;
+        badge.className = `badge badge-${trabajador.cargo.toLowerCase()}`;
+    }
 
-    // Calcular antigüedad
+    // 2. Calcular antigüedad
     let fechaIngresoStr = trabajador.fecha_ingreso ? trabajador.fecha_ingreso : "No registrada";
     let antiguedadDias = 0;
     if (trabajador.fecha_ingreso) {
         const fechaIngreso = new Date(trabajador.fecha_ingreso);
         antiguedadDias = Math.floor((new Date() - fechaIngreso) / (1000 * 60 * 60 * 24));
     }
-    document.getElementById('profile-ingreso').textContent = fechaIngresoStr;
-    document.getElementById('profile-antiguedad').textContent = trabajador.fecha_ingreso ? `${antiguedadDias} días` : 'N/A';
+    if(document.getElementById('profile-ingreso')) document.getElementById('profile-ingreso').textContent = fechaIngresoStr;
+    if(document.getElementById('profile-antiguedad')) document.getElementById('profile-antiguedad').textContent = trabajador.fecha_ingreso ? `${antiguedadDias} días` : 'N/A';
 
-    // Cargar cursos
+    // 3. Cargar cursos
     const listaCursosContainer = document.getElementById('profile-courses-list');
+    if(!listaCursosContainer) return; // Si no existe el HTML, detenemos todo aquí
+
     listaCursosContainer.innerHTML = '<p>Cargando cursos...</p>';
 
     const { data: cursosDB, error } = await supabaseClient.from('progreso_cursos').select('*').eq('trabajador_id', id);
@@ -164,7 +171,7 @@ window.abrirPerfil360 = async function(id) {
         });
     }
 
-    // Guardar BMW y SMS
+    // 4. Guardar BMW y SMS automáticamente al salir del input
     listaCursosContainer.querySelectorAll('input').forEach(input => {
         input.addEventListener('blur', async () => { 
             const curso = input.getAttribute('data-curso');
@@ -175,76 +182,85 @@ window.abrirPerfil360 = async function(id) {
         });
     });
 
-        // Configurar botón de imprimir Perfil 360
+    // 5. Configurar botón de imprimir
     const btnPrintProfile = document.getElementById('btn-print-profile');
-    const nuevoBtnPrint = btnPrintProfile.cloneNode(true);
-    btnPrintProfile.parentNode.replaceChild(nuevoBtnPrint, btnPrintProfile);
+    if (btnPrintProfile) {
+        const nuevoBtnPrint = btnPrintProfile.cloneNode(true);
+        btnPrintProfile.parentNode.replaceChild(nuevoBtnPrint, btnPrintProfile);
 
-    nuevoBtnPrint.addEventListener('click', () => {
-        const nombre = document.getElementById('profile-name').textContent;
-        const cargo = document.getElementById('profile-position').textContent;
-        const ingreso = document.getElementById('profile-ingreso').textContent;
-        const antiguedad = document.getElementById('profile-antiguedad').textContent;
-        const courseItems = document.querySelectorAll('.profile-course-item');
-        
-        let htmlReporte = `
-            <div style="font-family: 'Poppins', sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; color: #2D3748;">
-                <div style="text-align: center; border-bottom: 3px solid #E86B6B; padding-bottom: 20px; margin-bottom: 30px;">
-                    <h1 style="margin: 0; color: #E86B6B; font-size: 28px;">Perfil de Entrenamiento 360</h1>
-                    <p style="margin: 5px 0 0 0; color: #718096; font-size: 16px;">Restaurante GUI1 - CORCA</p>
-                </div>
-                <div style="background-color: #F8F9FA; padding: 20px; border-radius: 10px; margin-bottom: 30px; border: 1px solid #E2E8F0;">
-                    <h2 style="margin: 0 0 10px 0; font-size: 22px;">${nombre}</h2>
-                    <table style="width: 100%; font-size: 14px; color: #4A5568;">
-                        <tr>
-                            <td style="padding: 5px 0;"><strong>Cargo:</strong> ${cargo}</td>
-                            <td style="padding: 5px 0;"><strong>Fecha de Ingreso:</strong> ${ingreso}</td>
-                            <td style="padding: 5px 0;"><strong>Antigüedad:</strong> ${antiguedad}</td>
-                        </tr>
-                    </table>
-                </div>
-                <h3 style="color: #2D3748; border-bottom: 1px solid #E2E8F0; padding-bottom: 10px;">Cursos Aprobados y Observaciones</h3>
-                <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px;">
-                    <thead>
-                        <tr style="background-color: #F8F9FA; border-bottom: 2px solid #E2E8F0;">
-                            <th style="padding: 12px; text-align: left; width: 30%;">Curso</th>
-                            <th style="padding: 12px; text-align: left; width: 35%;">BMW (Buen Momento Wow)</th>
-                            <th style="padding: 12px; text-align: left; width: 35%;">SMS (Sería Mejor Si)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-        `;
+        nuevoBtnPrint.addEventListener('click', () => {
+            const nombre = document.getElementById('profile-name').textContent;
+            const cargo = document.getElementById('profile-position').textContent;
+            const ingreso = document.getElementById('profile-ingreso').textContent;
+            const antiguedad = document.getElementById('profile-antiguedad').textContent;
+            const courseItems = document.querySelectorAll('.profile-course-item');
+            
+            let htmlReporte = `
+                <div style="font-family: 'Poppins', sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; color: #2D3748;">
+                    <div style="text-align: center; border-bottom: 3px solid #E86B6B; padding-bottom: 20px; margin-bottom: 30px;">
+                        <h1 style="margin: 0; color: #E86B6B; font-size: 28px;">Perfil de Entrenamiento 360</h1>
+                        <p style="margin: 5px 0 0 0; color: #718096; font-size: 16px;">Restaurante GUI1 - CORCA</p>
+                    </div>
+                    <div style="background-color: #F8F9FA; padding: 20px; border-radius: 10px; margin-bottom: 30px; border: 1px solid #E2E8F0;">
+                        <h2 style="margin: 0 0 10px 0; font-size: 22px;">${nombre}</h2>
+                        <table style="width: 100%; font-size: 14px; color: #4A5568;">
+                            <tr>
+                                <td style="padding: 5px 0;"><strong>Cargo:</strong> ${cargo}</td>
+                                <td style="padding: 5px 0;"><strong>Fecha de Ingreso:</strong> ${ingreso}</td>
+                                <td style="padding: 5px 0;"><strong>Antigüedad:</strong> ${antiguedad}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <h3 style="color: #2D3748; border-bottom: 1px solid #E2E8F0; padding-bottom: 10px;">Cursos Aprobados y Observaciones</h3>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px;">
+                        <thead>
+                            <tr style="background-color: #F8F9FA; border-bottom: 2px solid #E2E8F0;">
+                                <th style="padding: 12px; text-align: left; width: 30%;">Curso</th>
+                                <th style="padding: 12px; text-align: left; width: 35%;">BMW (Buen Momento Wow)</th>
+                                <th style="padding: 12px; text-align: left; width: 35%;">SMS (Sería Mejor Si)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
 
-        courseItems.forEach(item => {
-            const cursoNombre = item.querySelector('.profile-course-title span').textContent;
-            const bmwInput = item.querySelector('.obs-bmw').value || '---';
-            const smsInput = item.querySelector('.obs-sms').value || '---';
+            courseItems.forEach(item => {
+                const cursoNombre = item.querySelector('.profile-course-title span').textContent;
+                const bmwInput = item.querySelector('.obs-bmw').value || '---';
+                const smsInput = item.querySelector('.obs-sms').value || '---';
+
+                htmlReporte += `
+                    <tr>
+                        <td style="padding: 12px; border-bottom: 1px solid #E2E8F0;"><strong>${cursoNombre}</strong></td>
+                        <td style="padding: 12px; border-bottom: 1px solid #E2E8F0; color: #00897B;">${bmwInput}</td>
+                        <td style="padding: 12px; border-bottom: 1px solid #E2E8F0; color: #A17B00;">${smsInput}</td>
+                    </tr>
+                `;
+            });
 
             htmlReporte += `
-                <tr>
-                    <td style="padding: 12px; border-bottom: 1px solid #E2E8F0;"><strong>${cursoNombre}</strong></td>
-                    <td style="padding: 12px; border-bottom: 1px solid #E2E8F0; color: #00897B;">${bmwInput}</td>
-                    <td style="padding: 12px; border-bottom: 1px solid #E2E8F0; color: #A17B00;">${smsInput}</td>
-                </tr>
-            `;
-        });
-
-        htmlReporte += `
-                    </tbody>
-                </table>
-                <div style="margin-top: 60px; display: flex; justify-content: space-between; text-align: center; font-size: 14px;">
-                    <div><p style="border-top: 1px solid #2D3748; padding-top: 8px; width: 200px; margin: 0 auto;">Firma del Entrenador</p></div>
-                    <div><p style="border-top: 1px solid #2D3748; padding-top: 8px; width: 200px; margin: 0 auto;">Firma del Colaborador</p></div>
+                        </tbody>
+                    </table>
+                    <div style="margin-top: 60px; display: flex; justify-content: space-between; text-align: center; font-size: 14px;">
+                        <div><p style="border-top: 1px solid #2D3748; padding-top: 8px; width: 200px; margin: 0 auto;">Firma del Entrenador</p></div>
+                        <div><p style="border-top: 1px solid #2D3748; padding-top: 8px; width: 200px; margin: 0 auto;">Firma del Colaborador</p></div>
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
 
-        const ventanaImpresion = window.open('', '_blank');
-        ventanaImpresion.document.write(htmlReporte);
-        ventanaImpresion.document.close();
-        ventanaImpresion.focus();
-        setTimeout(() => { ventanaImpresion.print(); ventanaImpresion.close(); }, 500);
-    });
+            const ventanaImpresion = window.open('', '_blank');
+            ventanaImpresion.document.write(htmlReporte);
+            ventanaImpresion.document.close();
+            ventanaImpresion.focus();
+            setTimeout(() => { ventanaImpresion.print(); ventanaImpresion.close(); }, 500);
+        });
+    }
+
+    // 6. Mostrar el modal
+    const modal = document.getElementById('profile-modal');
+    if(modal) {
+        modal.classList.add('show');
+        document.getElementById('close-profile-modal').onclick = () => modal.classList.remove('show');
+    }
 };
 
 // ==========================================
@@ -339,7 +355,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (filterCargoSelect) {
         filterCargoSelect.addEventListener('change', () => {
             cargarTrabajadoresEnSelect();
-            evaluatorContainer.style.display = 'none'; 
+            if(evaluatorContainer) evaluatorContainer.style.display = 'none'; 
         });
     }
 
@@ -349,7 +365,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!workerId) return alert("Por favor, selecciona un trabajador primero.");
 
             const trabajador = trabajadoresGlobal.find(t => t.id == workerId);
-            workerNameDisplay.textContent = `Progreso de: ${trabajador.nombre}`;
+            if(workerNameDisplay) workerNameDisplay.textContent = `Progreso de: ${trabajador.nombre}`;
 
             const { data: cursosDB, error } = await supabaseClient.from('progreso_cursos').select('*').eq('trabajador_id', workerId);
             if (error) return alert("Error al cargar los cursos.");
@@ -366,7 +382,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 "Parrilla", "Desayuno"
             ];
 
-            coursesListContainer.innerHTML = '';
+            if(coursesListContainer) coursesListContainer.innerHTML = '';
             
             listaCursosEvaluador.forEach(curso => {
                 const requiereFecha = cursosConFecha.includes(curso);
@@ -400,10 +416,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     e.target.classList.add(`status-${e.target.value.toLowerCase().replace(/ /g, '-')}`);
                 });
 
-                coursesListContainer.appendChild(row);
+                if(coursesListContainer) coursesListContainer.appendChild(row);
             });
 
-            evaluatorContainer.style.display = 'block';
+            if(evaluatorContainer) evaluatorContainer.style.display = 'block';
         });
     }
 
@@ -427,8 +443,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                     });
                 }
             });
-    
-        // 5. Lógica para Imprimir la Ruta del Catálogo
+
+            const { error } = await supabaseClient.from('progreso_cursos').upsert(cursosParaGuardar, { onConflict: 'trabajador_id, curso' });
+            if (error) { console.error(error); alert("Error al guardar el progreso."); } 
+            else { alert("¡Progreso guardado en la nube con éxito!"); }
+        });
+    }
+
+    // 5. Imprimir Ruta del Catálogo
     const btnPrintRoute = document.getElementById('btn-print-route');
     if (btnPrintRoute) {
         btnPrintRoute.addEventListener('click', () => {
@@ -445,13 +467,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <h1 style="margin: 0; color: #E86B6B; font-size: 28px;">Ruta de Entrenamiento</h1>
                         <p style="margin: 5px 0 0 0; color: #718096; font-size: 16px;">Restaurante GUI1 - CORCA</p>
                     </div>
-                    
                     <div style="background-color: #F8F9FA; padding: 20px; border-radius: 10px; margin-bottom: 30px; border: 1px solid #E2E8F0;">
                         <h2 style="margin: 0 0 10px 0; font-size: 22px;">${trabajador.nombre}</h2>
                         <p style="margin: 0; font-size: 14px; color: #4A5568;"><strong>Cargo:</strong> ${trabajador.cargo}</p>
                         <p style="margin: 5px 0 0 0; font-size: 14px; color: #4A5568;"><strong>Fecha de Reporte:</strong> ${fechaHoy}</p>
                     </div>
-
                     <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px;">
                         <thead>
                             <tr style="background-color: #F8F9FA; border-bottom: 2px solid #E2E8F0;">
@@ -487,7 +507,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             htmlReporte += `
                         </tbody>
                     </table>
-
                     <div style="margin-top: 60px; display: flex; justify-content: space-between; text-align: center; font-size: 14px;">
                         <div><p style="border-top: 1px solid #2D3748; padding-top: 8px; width: 200px; margin: 0 auto;">Firma del Entrenador</p></div>
                         <div><p style="border-top: 1px solid #2D3748; padding-top: 8px; width: 200px; margin: 0 auto;">Firma del Colaborador</p></div>
@@ -500,12 +519,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             ventanaImpresion.document.close();
             ventanaImpresion.focus();
             setTimeout(() => { ventanaImpresion.print(); ventanaImpresion.close(); }, 500);
-        });
-    }
-
-            const { error } = await supabaseClient.from('progreso_cursos').upsert(cursosParaGuardar, { onConflict: 'trabajador_id, curso' });
-            if (error) { console.error(error); alert("Error al guardar el progreso."); } 
-            else { alert("¡Progreso guardado en la nube con éxito!"); }
         });
     }
 });
