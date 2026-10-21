@@ -1,1 +1,1340 @@
+/* =========================================
+   BLOQUE 1: VARIABLES Y RESETEO GLOBAL
+   ========================================= */
+:root {
+    /* Paleta de colores McDonald's en tonos Pastel */
+    --mc-red-soft: #E86B6B;      /* Rojo suave para botones */
+    --mc-red-hover: #D15A5A;     /* Rojo un poco más oscuro para el hover */
+    --mc-yellow-soft: #FDE68A;   /* Amarillo crema/mantequilla */
+    --mc-yellow-dark: #F5C542;   /* Amarillo un poco más fuerte */
+    
+    /* Colores neutros */
+    --bg-color: #F8F9FA;         /* Fondo general gris muy claro */
+    --surface-color: #FFFFFF;    /* Blanco para las tarjetas */
+    --text-main: #2D3748;        /* Gris oscuro para textos principales */
+    --text-muted: #718096;       /* Gris medio para textos secundarios */
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
 
+/* Reseteo básico para evitar márgenes raros */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+/* =========================================
+   BLOQUE 2: HEADER Y FOOTER (Básico para esta vista)
+   ========================================= */
+app-header, app-footer {
+    display: block;
+    width: 100%;
+}
+
+/* =========================================
+   BLOQUE 3: HERO SECTION (Bienvenida)
+   ========================================= */
+.hero-section {
+    /* Degradado sutil usando el amarillo pastel y el gris claro */
+    background: linear-gradient(135deg, #FFFDF5 0%, #F8F9FA 100%);
+    padding: 80px 20px;
+    text-align: center;
+    border-bottom: 2px solid var(--mc-yellow-soft);
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-content h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Botón Principal Estilo McDonald's Pastel */
+.btn-primary {
+    display: inline-block;
+    background-color: var(--mc-red-soft);
+    color: #ffffff;
+    padding: 12px 24px;
+    border-radius: 30px; /* Bordes muy redondeados */
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(232, 107, 107, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: var(--mc-red-hover);
+    transform: translateY(-2px); /* Efecto de que se levanta */
+    box-shadow: 0 6px 15px rgba(232, 107, 107, 0.3);
+}
+
+.btn-large {
+    padding: 16px 32px;
+    font-size: 1.1rem;
+}
+
+/* =========================================
+   BLOQUE 4: SECCIÓN DE CARACTERÍSTICAS (Tarjetas)
+   ========================================= */
+.features-section {
+    padding: 80px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.features-section h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 50px;
+    color: var(--text-main);
+}
+
+.features-grid {
+    display: grid;
+    /* Magia de CSS Grid: Crea columnas automáticas que se adaptan al celular */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.feature-card {
+    background-color: var(--surface-color);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 4px solid var(--mc-yellow-dark); /* Detalle superior amarillo */
+    text-align: center;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    /* Fondo circular amarillo pastel para el icono */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    background-color: var(--mc-yellow-soft);
+    border-radius: 50%;
+}
+
+.feature-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--text-main);
+}
+
+.feature-card p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+/* =========================================
+   BLOQUE 5: RESPONSIVE (Adaptación a Celulares)
+   ========================================= */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2rem; /* Título más pequeño en celular */
+    }
+    
+    .hero-section {
+        padding: 60px 15px;
+    }
+
+    .features-section {
+        padding: 50px 15px;
+    }
+}
+
+
+
+
+
+
+
+/* =========================================
+   BLOQUE 1: VARIABLES Y RESETEO GLOBAL
+   ========================================= */
+:root {
+    --mc-red-soft: #E86B6B;      
+    --mc-red-hover: #D15A5A;     
+    --mc-yellow-soft: #FDE68A;   
+    --mc-yellow-dark: #F5C542;   
+    
+    --bg-color: #F8F9FA;         
+    --surface-color: #FFFFFF;    
+    --text-main: #2D3748;        
+    --text-muted: #718096;       
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+/* =========================================
+   BLOQUE 2: HEADER Y FOOTER
+   ========================================= */
+app-header, app-footer {
+    display: block;
+    width: 100%;
+}
+
+.main-header {
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-area { display: flex; align-items: center; gap: 15px; }
+
+.logo-icon {
+    background-color: var(--mc-yellow-soft);
+    color: var(--mc-red-soft);
+    font-size: 1.8rem;
+    font-weight: 700;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    box-shadow: inset 0 -3px 0 rgba(0,0,0,0.1);
+}
+
+.logo-text h1 { font-size: 1.2rem; margin: 0; color: var(--text-main); line-height: 1.2; }
+.logo-text span { font-size: 0.85rem; color: var(--text-muted); }
+
+.header-nav { display: flex; gap: 20px; }
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active { color: var(--mc-red-soft); }
+
+.main-footer {
+    background-color: #FFFFFF;
+    border-top: 1px solid #E2E8F0;
+    padding: 30px 20px;
+    margin-top: auto;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-info p { margin: 0; font-size: 0.9rem; color: var(--text-muted); }
+.footer-meta { display: flex; align-items: center; gap: 15px; font-size: 0.85rem; color: var(--text-muted); }
+
+.version-tag {
+    background-color: var(--bg-color);
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid #E2E8F0;
+    font-weight: 600;
+}
+
+/* =========================================
+   BLOQUE 3: HERO SECTION (INDEX)
+   ========================================= */
+.hero-section {
+    background: linear-gradient(135deg, #FFFDF5 0%, #F8F9FA 100%);
+    padding: 80px 20px;
+    text-align: center;
+    border-bottom: 2px solid var(--mc-yellow-soft);
+}
+
+.hero-content { max-width: 800px; margin: 0 auto; }
+.hero-content h1 { font-size: 2.8rem; font-weight: 700; color: var(--text-main); margin-bottom: 20px; line-height: 1.2; }
+.hero-content p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 40px; max-width: 650px; margin-left: auto; margin-right: auto; }
+
+.btn-primary {
+    display: inline-block;
+    background-color: var(--mc-red-soft);
+    color: #ffffff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(232, 107, 107, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: var(--mc-red-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(232, 107, 107, 0.3);
+}
+
+.btn-large { padding: 16px 32px; font-size: 1.1rem; }
+
+/* =========================================
+   BLOQUE 4: SECCIÓN DE CARACTERÍSTICAS (INDEX)
+   ========================================= */
+.features-section { padding: 80px 20px; max-width: 1200px; margin: 0 auto; }
+.features-section h2 { text-align: center; font-size: 2rem; margin-bottom: 50px; color: var(--text-main); }
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+
+.feature-card {
+    background-color: var(--surface-color);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 4px solid var(--mc-yellow-dark);
+    text-align: center;
+}
+
+.feature-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    background-color: var(--mc-yellow-soft);
+    border-radius: 50%;
+}
+
+.feature-card h3 { font-size: 1.2rem; margin-bottom: 15px; color: var(--text-main); }
+.feature-card p { font-size: 0.95rem; color: var(--text-muted); }
+
+/* =========================================
+   BLOQUE 5: RESPONSIVE GLOBAL
+   ========================================= */
+@media (max-width: 768px) {
+    .hero-content h1 { font-size: 2rem; }
+    .hero-section { padding: 60px 15px; }
+    .features-section { padding: 50px 15px; }
+    .header-container { flex-direction: column; gap: 15px; text-align: center; }
+    .footer-content { flex-direction: column; text-align: center; }
+}
+
+/* =========================================
+   BLOQUE 6: DISEÑO DEL DASHBOARD (LAYOUT)
+   ========================================= */
+.dashboard-body {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--bg-color);
+}
+
+/* --- SIDEBAR (Menú Lateral) --- */
+.sidebar {
+    width: 260px;
+    background-color: #FFFFFF;
+    border-right: 1px solid #E2E8F0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.sidebar-header h2 { font-size: 1.1rem; color: var(--text-main); }
+
+.sidebar-nav { padding: 20px 10px; display: flex; flex-direction: column; gap: 5px; }
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: 500;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.nav-item:hover { background-color: var(--bg-color); color: var(--text-main); }
+
+.nav-item.active {
+    background-color: #FFF5F5;
+    color: var(--mc-red-soft);
+    font-weight: 600;
+    border-left: 4px solid var(--mc-red-soft);
+}
+
+.sidebar-divider { margin: 15px 0; border: 0; border-top: 1px solid #E2E8F0; }
+
+/* --- ÁREA PRINCIPAL --- */
+.dashboard-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.dashboard-topbar {
+    background-color: #FFFFFF;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #E2E8F0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.dashboard-topbar h1 { font-size: 1.4rem; color: var(--text-main); }
+
+.dashboard-view { padding: 40px; display: none; }
+.dashboard-view.active { display: block; }
+
+.placeholder-box {
+    background: #FFFFFF;
+    padding: 50px;
+    border-radius: 15px;
+    text-align: center;
+    border: 2px dashed #E2E8F0;
+    color: var(--text-muted);
+}
+
+/* =========================================
+   BLOQUE 7: FILTROS Y BUSCADOR (El nuevo bloque)
+   ========================================= */
+.filters-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+    margin-bottom: 30px;
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 15px; 
+    box-shadow: var(--shadow); 
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-color);
+    border: 1px solid #E2E8F0;
+    border-radius: 30px; 
+    padding: 10px 20px;
+    width: 100%;
+    max-width: 500px; 
+    transition: border-color 0.3s ease;
+}
+
+.search-container:focus-within {
+    border-color: var(--mc-red-soft);
+    box-shadow: 0 0 0 3px rgba(232, 107, 107, 0.1);
+}
+
+.search-icon { font-size: 1.1rem; margin-right: 10px; color: var(--text-muted); }
+
+#search-input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-main);
+}
+
+#search-input::placeholder { color: var(--text-muted); opacity: 0.7; }
+
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 12px; 
+}
+
+.filter-btn {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    color: var(--text-muted);
+    padding: 8px 20px; 
+    border-radius: 30px; 
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+}
+
+.filter-btn:hover {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    border-color: #CBD5E0;
+}
+
+.filter-btn.active {
+    background-color: var(--mc-red-soft);
+    color: #FFFFFF;
+    border-color: var(--mc-red-soft);
+    box-shadow: 0 4px 10px rgba(232, 107, 107, 0.3); 
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .filter-buttons { gap: 8px; }
+    .filter-btn { padding: 6px 15px; font-size: 0.85rem; }
+}
+
+
+
+
+
+
+
+/* =========================================
+   AJUSTES PARA EL TOPBAR DEL DASHBOARD
+   ========================================= */
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Separación entre el perfil y el botón */
+}
+
+.btn-small {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+}
+
+.user-profile span {
+    font-weight: 500;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+
+
+
+
+
+
+/* =========================================
+   BLOQUE 8: ESTILOS DEL MODAL (CRUD CORREGIDO)
+   ========================================= */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro más suave */
+    /* Usamos Flexbox para centrar la caja perfectamente */
+    align-items: center; 
+    justify-content: center;
+}
+
+/* Esta clase se activa con JS para mostrar el modal */
+.modal.show {
+    display: flex; 
+}
+
+.modal-content {
+    background-color: #FFFFFF;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%; /* Ocupa el 90% en celulares */
+    max-width: 450px; /* Pero máximo 450px en PC */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    position: relative;
+    animation: aparecerModal 0.3s ease-out; /* Pequeña animación */
+}
+
+/* Animación para que aparezca suavemente */
+@keyframes aparecerModal {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-content h2 {
+    font-size: 1.4rem;
+    margin-bottom: 25px;
+    color: var(--text-main);
+    text-align: center;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-weight: bold;
+}
+
+.close-modal:hover { 
+    color: var(--mc-red-soft); 
+}
+
+/* --- ESTILOS DEL FORMULARIO --- */
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label { 
+    font-weight: 500; 
+    font-size: 0.9rem; 
+    color: var(--text-main);
+}
+
+.form-group input, .form-group select {
+    padding: 10px 12px;
+    border: 1px solid #CBD5E0;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border 0.2s;
+}
+
+.form-group input:focus, .form-group select:focus {
+    border-color: var(--mc-red-soft);
+    box-shadow: 0 0 0 2px rgba(232, 107, 107, 0.1);
+}
+
+/* --- BOTONES DEL FORMULARIO --- */
+.form-actions {
+    display: flex;
+    justify-content: space-between; /* Separa Cancelar y Guardar */
+    gap: 10px;
+    margin-top: 25px;
+}
+
+/* Forzamos que el botón de guardar dentro del modal no sea gigante */
+.form-actions .btn-primary {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    flex: 1; /* Hace que ocupe el espacio disponible */
+    border-radius: 8px; /* Bordes menos redondos para que combine con el input */
+    box-shadow: none;
+}
+
+.btn-secondary {
+    background-color: #E2E8F0;
+    color: var(--text-main);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+    flex: 1;
+}
+
+.btn-secondary:hover {
+    background-color: #CBD5E0;
+}
+
+
+
+
+
+
+
+
+/* =========================================
+   BLOQUE 9: DISEÑO DE LAS TARJETAS
+   ========================================= */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.worker-card {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    border-left: 5px solid var(--mc-yellow-dark);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.worker-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.worker-card h3 {
+    font-size: 1.1rem;
+    color: var(--text-main);
+    margin-bottom: 5px;
+}
+
+/* Etiquetas de Cargo (Badges) */
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    width: fit-content;
+}
+
+.badge-entrenante { background-color: #E6F6FF; color: #007BC0; }
+.badge-experto { background-color: #FFF5D1; color: #A17B00; }
+.badge-lec { background-color: #F0E6FF; color: #6A00B0; }
+.badge-entrenador { background-color: #FFE6E6; color: var(--mc-red-hover); }
+
+.worker-card p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Botones de Editar y Eliminar */
+.card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+    border-top: 1px solid #E2E8F0;
+    padding-top: 15px;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.btn-icon:hover {
+    transform: scale(1.2);
+}
+
+
+
+/* ==========================================
+   BLOQUE 10: PANEL DE ESTADÍSTICAS (KPIs)
+   ========================================== */
+.stats-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Se adapta a la pantalla */
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background-color: #FFFFFF;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-left: 4px solid #E2E8F0; /* Color por defecto */
+}
+
+/* Borde especial para la tarjeta de Total */
+.total-card {
+    border-left: 4px solid var(--mc-yellow-dark);
+    background: linear-gradient(to right, #FFFDF5, #FFFFFF);
+}
+
+.stat-icon {
+    font-size: 2rem;
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-title {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.stat-value {
+    font-size: 1.6rem;
+    color: var(--text-main);
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+}
+
+
+
+
+
+/* ==========================================
+   BLOQUE 11: RUTAS DE FORMACIÓN (LEARNING PATHS)
+   ========================================== */
+.path-header {
+    margin-bottom: 25px;
+}
+
+.path-header h2 { font-size: 1.5rem; color: var(--text-main); }
+.path-header p { color: var(--text-muted); font-size: 0.95rem; }
+
+.paths-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.path-card {
+    background-color: #FFFFFF;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    border-top: 5px solid #E2E8F0; /* Color por defecto */
+}
+
+.path-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Colores temáticos de las rutas */
+.path-service { border-top-color: #007BC0; } /* Azul para servicio */
+.path-production { border-top-color: #F5C542; } /* Amarillo para producción */
+
+.path-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: var(--bg-color);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-main);
+    border: 1px solid #E2E8F0;
+}
+
+.path-card h3 { font-size: 1.3rem; color: var(--text-main); margin-bottom: 10px; }
+.path-description { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; }
+
+.path-stats {
+    display: inline-block;
+    background-color: #F8F9FA;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 20px;
+    border: 1px solid #E2E8F0;
+}
+
+/* Línea de tiempo visual */
+.path-timeline {
+    border-left: 2px solid #E2E8F0;
+    padding-left: 15px;
+    margin-left: 5px;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.timeline-item {
+    font-size: 0.85rem;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.timeline-item .dot {
+    width: 10px;
+    height: 10px;
+    background-color: #CBD5E0;
+    border-radius: 50%;
+    position: absolute;
+    left: -21px; /* Para que quede sobre la línea */
+    border: 2px solid #FFFFFF;
+}
+
+/* Barra de progreso */
+.path-progress-container {
+    width: 100%;
+    height: 8px;
+    background-color: #E2E8F0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.path-progress-bar {
+    height: 100%;
+    background-color: var(--mc-red-soft);
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+.path-service .path-progress-bar { background-color: #007BC0; }
+.path-production .path-progress-bar { background-color: var(--mc-yellow-dark); }
+
+.progress-text {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: right;
+    font-weight: 600;
+}
+
+/* ==========================================
+   BLOQUE 12: LISTA DE CURSOS GENERALES
+   ========================================== */
+.section-divider {
+    border: 0;
+    border-top: 2px dashed #E2E8F0;
+    margin: 40px 0;
+}
+
+.courses-list-header { margin-bottom: 20px; }
+.courses-list-header h2 { font-size: 1.3rem; color: var(--text-main); }
+.courses-list-header p { font-size: 0.9rem; color: var(--text-muted); }
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.course-item {
+    background-color: #FFFFFF;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-left: 3px solid var(--mc-red-soft);
+}
+
+.course-icon { font-size: 1.5rem; }
+.course-item h4 { font-size: 0.95rem; color: var(--text-main); margin-bottom: 3px; }
+.course-item p { font-size: 0.8rem; color: var(--text-muted); margin: 0; }
+
+
+/* ==========================================
+   BLOQUE 13: CATÁLOGO COMPLETO POR CATEGORÍAS
+   ========================================== */
+.catalog-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.catalog-category {
+    background-color: #FFFFFF;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid #E2E8F0;
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px dashed #E2E8F0;
+}
+
+.category-header h3 {
+    font-size: 1.1rem;
+    color: var(--text-main);
+    margin: 0;
+}
+
+.course-count {
+    background-color: var(--bg-color);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+/* Grilla donde van los cursos */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+/* La "píldora" de cada curso */
+.catalog-item {
+    background-color: var(--bg-color);
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--text-main);
+    font-weight: 500;
+    border-left: 3px solid #CBD5E0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.catalog-item:hover {
+    background-color: #FFFFFF;
+    border-left-color: var(--mc-red-soft);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transform: translateX(3px); /* Efecto sutil al pasar el mouse */
+}
+
+/* Etiqueta de días para los cursos de servicio y producción */
+.days {
+    background-color: #FFFFFF;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--mc-red-soft);
+    border: 1px solid #E2E8F0;
+}
+
+
+
+
+/* ==========================================
+   BLOQUE 14: EVALUADOR DE RUTAS (CATÁLOGO)
+   ========================================== */
+.evaluator-section {
+    margin-top: 20px;
+}
+
+.evaluator-search {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.evaluator-search label {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.evaluator-search select {
+    padding: 10px 15px;
+    border: 1px solid #CBD5E0;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    min-width: 250px;
+    outline: none;
+}
+
+.route-evaluator-container {
+    background-color: #FFFFFF;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    overflow: hidden; /* Para que los bordes redondeados corten la tabla */
+}
+
+.worker-evaluator-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #F8F9FA;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.worker-evaluator-header h3 {
+    color: var(--mc-red-soft);
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.evaluator-courses-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.eval-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid #E2E8F0;
+    transition: background-color 0.2s ease;
+}
+
+.eval-row:last-child {
+    border-bottom: none;
+}
+
+.eval-row:hover {
+    background-color: #F8F9FA;
+}
+
+.eval-course-name {
+    font-weight: 500;
+    color: var(--text-main);
+    font-size: 0.95rem;
+}
+
+/* Selector de estado dentro de la tabla */
+.eval-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid #E2E8F0;
+    outline: none;
+    cursor: pointer;
+}
+
+/* Colores dinámicos según el estado (usando clases que JS asignará) */
+.eval-status.status-por-comenzar { background-color: #F8F9FA; color: #718096; }
+.eval-status.status-realizado { background-color: #E6F6FF; color: #007BC0; }
+.eval-status.status-aprobado { background-color: #E6FFFA; color: #00897B; }
+.eval-status.status-verificar { background-color: #FFF5D1; color: #A17B00; }
+.eval-status.status-volver { background-color: #FFE6E6; color: var(--mc-red-hover); }
+
+
+
+
+
+/* Ajustes para el buscador con dos filtros */
+.evaluator-search {
+    display: flex;
+    align-items: flex-end; /* Alinea los elementos abajo */
+    gap: 20px;
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    margin-bottom: 25px;
+    flex-wrap: wrap; /* Para que se adapte en celular */
+}
+
+.search-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.search-group label {
+    font-size: 0.9rem;
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+.search-group select {
+    padding: 10px 15px;
+    border: 1px solid #CBD5E0;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    min-width: 220px;
+    outline: none;
+    background-color: #FFFFFF;
+}
+
+.search-group select:focus {
+    border-color: var(--mc-red-soft);
+    box-shadow: 0 0 0 2px rgba(232, 107, 107, 0.1);
+}
+
+/* Ajustamos el botón para que quede alineado al fondo */
+.evaluator-search .btn-primary {
+    height: 42px; /* Misma altura que los inputs */
+    display: flex;
+    align-items: center;
+}
+
+
+
+
+
+/* ==========================================
+   BLOQUE 15: MODAL DE PERFIL 360 (PERSONAL)
+   ========================================== */
+.profile-modal-content {
+    max-width: 700px; /* Más ancho para que quepan los cursos */
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--bg-color);
+    padding-bottom: 15px;
+}
+
+.profile-header h2 {
+    font-size: 1.6rem;
+    color: var(--text-main);
+    margin: 0;
+}
+
+.profile-info {
+    display: flex;
+    gap: 30px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+}
+
+.profile-courses h3 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    color: var(--text-main);
+}
+
+.profile-course-item {
+    background-color: var(--bg-color);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-left: 4px solid #CBD5E0;
+}
+
+.profile-course-item.aprobado { border-left-color: #00897B; }
+.profile-course-item.por-comenzar { border-left-color: #718096; }
+.profile-course-item.volver { border-left-color: var(--mc-red-soft); }
+
+.profile-course-title {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+}
+
+.profile-course-status {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+}
+
+.profile-observations {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.profile-observations input {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid #CBD5E0;
+    border-radius: 6px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
+    outline: none;
+}
+
+.profile-observations input:focus {
+    border-color: var(--mc-red-soft);
+}
+
+.obs-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 3px;
+}
