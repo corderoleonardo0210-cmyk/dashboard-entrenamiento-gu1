@@ -32,7 +32,6 @@ async function cargarTrabajadoresDesdeNube() {
 // 2. DIBUJAR TARJETAS DE PERSONAL
 // ==========================================
 function renderizarTarjetas(trabajadores) {
-    if (!cardsGrid) return;
     cardsGrid.innerHTML = '';
 
     if (trabajadores.length === 0) {
@@ -111,29 +110,23 @@ window.abrirPerfil360 = async function(id) {
     const trabajador = trabajadoresGlobal.find(t => t.id == id);
     if (!trabajador) return;
 
-    // 1. Llenar datos básicos (con validaciones por si falta el HTML)
-    if(document.getElementById('profile-name')) document.getElementById('profile-name').textContent = trabajador.nombre;
-    
+    document.getElementById('profile-name').textContent = trabajador.nombre;
     const badge = document.getElementById('profile-position');
-    if(badge) {
-        badge.textContent = trabajador.cargo;
-        badge.className = `badge badge-${trabajador.cargo.toLowerCase()}`;
-    }
+    badge.textContent = trabajador.cargo;
+    badge.className = `badge badge-${trabajador.cargo.toLowerCase()}`;
 
-    // 2. Calcular antigüedad
+    // Calcular antigüedad
     let fechaIngresoStr = trabajador.fecha_ingreso ? trabajador.fecha_ingreso : "No registrada";
     let antiguedadDias = 0;
     if (trabajador.fecha_ingreso) {
         const fechaIngreso = new Date(trabajador.fecha_ingreso);
         antiguedadDias = Math.floor((new Date() - fechaIngreso) / (1000 * 60 * 60 * 24));
     }
-    if(document.getElementById('profile-ingreso')) document.getElementById('profile-ingreso').textContent = fechaIngresoStr;
-    if(document.getElementById('profile-antiguedad')) document.getElementById('profile-antiguedad').textContent = trabajador.fecha_ingreso ? `${antiguedadDias} días` : 'N/A';
+    document.getElementById('profile-ingreso').textContent = fechaIngresoStr;
+    document.getElementById('profile-antiguedad').textContent = trabajador.fecha_ingreso ? `${antiguedadDias} días` : 'N/A';
 
-    // 3. Cargar cursos
+    // Cargar cursos
     const listaCursosContainer = document.getElementById('profile-courses-list');
-    if(!listaCursosContainer) return; // Si no existe el HTML, detenemos todo aquí
-
     listaCursosContainer.innerHTML = '<p>Cargando cursos...</p>';
 
     const { data: cursosDB, error } = await supabaseClient.from('progreso_cursos').select('*').eq('trabajador_id', id);
@@ -171,7 +164,7 @@ window.abrirPerfil360 = async function(id) {
         });
     }
 
-    // 4. Guardar BMW y SMS automáticamente al salir del input
+    // Guardar BMW y SMS
     listaCursosContainer.querySelectorAll('input').forEach(input => {
         input.addEventListener('blur', async () => { 
             const curso = input.getAttribute('data-curso');
@@ -182,85 +175,76 @@ window.abrirPerfil360 = async function(id) {
         });
     });
 
-    // 5. Configurar botón de imprimir
+        // Configurar botón de imprimir Perfil 360
     const btnPrintProfile = document.getElementById('btn-print-profile');
-    if (btnPrintProfile) {
-        const nuevoBtnPrint = btnPrintProfile.cloneNode(true);
-        btnPrintProfile.parentNode.replaceChild(nuevoBtnPrint, btnPrintProfile);
+    const nuevoBtnPrint = btnPrintProfile.cloneNode(true);
+    btnPrintProfile.parentNode.replaceChild(nuevoBtnPrint, btnPrintProfile);
 
-        nuevoBtnPrint.addEventListener('click', () => {
-            const nombre = document.getElementById('profile-name').textContent;
-            const cargo = document.getElementById('profile-position').textContent;
-            const ingreso = document.getElementById('profile-ingreso').textContent;
-            const antiguedad = document.getElementById('profile-antiguedad').textContent;
-            const courseItems = document.querySelectorAll('.profile-course-item');
-            
-            let htmlReporte = `
-                <div style="font-family: 'Poppins', sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; color: #2D3748;">
-                    <div style="text-align: center; border-bottom: 3px solid #E86B6B; padding-bottom: 20px; margin-bottom: 30px;">
-                        <h1 style="margin: 0; color: #E86B6B; font-size: 28px;">Perfil de Entrenamiento 360</h1>
-                        <p style="margin: 5px 0 0 0; color: #718096; font-size: 16px;">Restaurante GUI1 - CORCA</p>
-                    </div>
-                    <div style="background-color: #F8F9FA; padding: 20px; border-radius: 10px; margin-bottom: 30px; border: 1px solid #E2E8F0;">
-                        <h2 style="margin: 0 0 10px 0; font-size: 22px;">${nombre}</h2>
-                        <table style="width: 100%; font-size: 14px; color: #4A5568;">
-                            <tr>
-                                <td style="padding: 5px 0;"><strong>Cargo:</strong> ${cargo}</td>
-                                <td style="padding: 5px 0;"><strong>Fecha de Ingreso:</strong> ${ingreso}</td>
-                                <td style="padding: 5px 0;"><strong>Antigüedad:</strong> ${antiguedad}</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <h3 style="color: #2D3748; border-bottom: 1px solid #E2E8F0; padding-bottom: 10px;">Cursos Aprobados y Observaciones</h3>
-                    <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px;">
-                        <thead>
-                            <tr style="background-color: #F8F9FA; border-bottom: 2px solid #E2E8F0;">
-                                <th style="padding: 12px; text-align: left; width: 30%;">Curso</th>
-                                <th style="padding: 12px; text-align: left; width: 35%;">BMW (Buen Momento Wow)</th>
-                                <th style="padding: 12px; text-align: left; width: 35%;">SMS (Sería Mejor Si)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
+    nuevoBtnPrint.addEventListener('click', () => {
+        const nombre = document.getElementById('profile-name').textContent;
+        const cargo = document.getElementById('profile-position').textContent;
+        const ingreso = document.getElementById('profile-ingreso').textContent;
+        const antiguedad = document.getElementById('profile-antiguedad').textContent;
+        const courseItems = document.querySelectorAll('.profile-course-item');
+        
+        let htmlReporte = `
+            <div style="font-family: 'Poppins', sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; color: #2D3748;">
+                <div style="text-align: center; border-bottom: 3px solid #E86B6B; padding-bottom: 20px; margin-bottom: 30px;">
+                    <h1 style="margin: 0; color: #E86B6B; font-size: 28px;">Perfil de Entrenamiento 360</h1>
+                    <p style="margin: 5px 0 0 0; color: #718096; font-size: 16px;">Restaurante GUI1 - CORCA</p>
+                </div>
+                <div style="background-color: #F8F9FA; padding: 20px; border-radius: 10px; margin-bottom: 30px; border: 1px solid #E2E8F0;">
+                    <h2 style="margin: 0 0 10px 0; font-size: 22px;">${nombre}</h2>
+                    <table style="width: 100%; font-size: 14px; color: #4A5568;">
+                        <tr>
+                            <td style="padding: 5px 0;"><strong>Cargo:</strong> ${cargo}</td>
+                            <td style="padding: 5px 0;"><strong>Fecha de Ingreso:</strong> ${ingreso}</td>
+                            <td style="padding: 5px 0;"><strong>Antigüedad:</strong> ${antiguedad}</td>
+                        </tr>
+                    </table>
+                </div>
+                <h3 style="color: #2D3748; border-bottom: 1px solid #E2E8F0; padding-bottom: 10px;">Cursos Aprobados y Observaciones</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px;">
+                    <thead>
+                        <tr style="background-color: #F8F9FA; border-bottom: 2px solid #E2E8F0;">
+                            <th style="padding: 12px; text-align: left; width: 30%;">Curso</th>
+                            <th style="padding: 12px; text-align: left; width: 35%;">BMW (Buen Momento Wow)</th>
+                            <th style="padding: 12px; text-align: left; width: 35%;">SMS (Sería Mejor Si)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
 
-            courseItems.forEach(item => {
-                const cursoNombre = item.querySelector('.profile-course-title span').textContent;
-                const bmwInput = item.querySelector('.obs-bmw').value || '---';
-                const smsInput = item.querySelector('.obs-sms').value || '---';
-
-                htmlReporte += `
-                    <tr>
-                        <td style="padding: 12px; border-bottom: 1px solid #E2E8F0;"><strong>${cursoNombre}</strong></td>
-                        <td style="padding: 12px; border-bottom: 1px solid #E2E8F0; color: #00897B;">${bmwInput}</td>
-                        <td style="padding: 12px; border-bottom: 1px solid #E2E8F0; color: #A17B00;">${smsInput}</td>
-                    </tr>
-                `;
-            });
+        courseItems.forEach(item => {
+            const cursoNombre = item.querySelector('.profile-course-title span').textContent;
+            const bmwInput = item.querySelector('.obs-bmw').value || '---';
+            const smsInput = item.querySelector('.obs-sms').value || '---';
 
             htmlReporte += `
-                        </tbody>
-                    </table>
-                    <div style="margin-top: 60px; display: flex; justify-content: space-between; text-align: center; font-size: 14px;">
-                        <div><p style="border-top: 1px solid #2D3748; padding-top: 8px; width: 200px; margin: 0 auto;">Firma del Entrenador</p></div>
-                        <div><p style="border-top: 1px solid #2D3748; padding-top: 8px; width: 200px; margin: 0 auto;">Firma del Colaborador</p></div>
-                    </div>
-                </div>
+                <tr>
+                    <td style="padding: 12px; border-bottom: 1px solid #E2E8F0;"><strong>${cursoNombre}</strong></td>
+                    <td style="padding: 12px; border-bottom: 1px solid #E2E8F0; color: #00897B;">${bmwInput}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #E2E8F0; color: #A17B00;">${smsInput}</td>
+                </tr>
             `;
-
-            const ventanaImpresion = window.open('', '_blank');
-            ventanaImpresion.document.write(htmlReporte);
-            ventanaImpresion.document.close();
-            ventanaImpresion.focus();
-            setTimeout(() => { ventanaImpresion.print(); ventanaImpresion.close(); }, 500);
         });
-    }
 
-    // 6. Mostrar el modal
-    const modal = document.getElementById('profile-modal');
-    if(modal) {
-        modal.classList.add('show');
-        document.getElementById('close-profile-modal').onclick = () => modal.classList.remove('show');
-    }
+        htmlReporte += `
+                    </tbody>
+                </table>
+                <div style="margin-top: 60px; display: flex; justify-content: space-between; text-align: center; font-size: 14px;">
+                    <div><p style="border-top: 1px solid #2D3748; padding-top: 8px; width: 200px; margin: 0 auto;">Firma del Entrenador</p></div>
+                    <div><p style="border-top: 1px solid #2D3748; padding-top: 8px; width: 200px; margin: 0 auto;">Firma del Colaborador</p></div>
+                </div>
+            </div>
+        `;
+
+        const ventanaImpresion = window.open('', '_blank');
+        ventanaImpresion.document.write(htmlReporte);
+        ventanaImpresion.document.close();
+        ventanaImpresion.focus();
+        setTimeout(() => { ventanaImpresion.print(); ventanaImpresion.close(); }, 500);
+    });
 };
 
 // ==========================================
@@ -318,7 +302,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // 3. Lógica para cambiar vistas (Menú lateral)
+        // 3. Lógica para cambiar vistas (Menú lateral)
     const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
     const views = document.querySelectorAll('.dashboard-view');
     const title = document.getElementById('current-view-title');
@@ -336,9 +320,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (targetView) targetView.classList.add('active');
             }
 
+            // Aquí están los if que cambian el título y llaman a las funciones
             if (targetId === 'view-personal') title.textContent = "Gestión de Personal";
             if (targetId === 'view-cursos') title.textContent = "Catálogo de Cursos y Rutas";
-            if (targetId === 'view-estadisticas') title.textContent = "Estadísticas del Equipo";
+            
+            // 👇 AQUÍ ES DONDE VA EL CÓDIGO DE ESTADÍSTICAS 👇
+            if (targetId === 'view-estadisticas') {
+                title.textContent = "Estadísticas del Equipo";
+                cargarReporteGerencial(); 
+            }
+
             if (targetId === 'view-alertas') title.textContent = "Alertas y Vencimientos";
         });
     });
@@ -355,7 +346,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (filterCargoSelect) {
         filterCargoSelect.addEventListener('change', () => {
             cargarTrabajadoresEnSelect();
-            if(evaluatorContainer) evaluatorContainer.style.display = 'none'; 
+            evaluatorContainer.style.display = 'none'; 
         });
     }
 
@@ -365,7 +356,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!workerId) return alert("Por favor, selecciona un trabajador primero.");
 
             const trabajador = trabajadoresGlobal.find(t => t.id == workerId);
-            if(workerNameDisplay) workerNameDisplay.textContent = `Progreso de: ${trabajador.nombre}`;
+            workerNameDisplay.textContent = `Progreso de: ${trabajador.nombre}`;
 
             const { data: cursosDB, error } = await supabaseClient.from('progreso_cursos').select('*').eq('trabajador_id', workerId);
             if (error) return alert("Error al cargar los cursos.");
@@ -382,7 +373,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 "Parrilla", "Desayuno"
             ];
 
-            if(coursesListContainer) coursesListContainer.innerHTML = '';
+            coursesListContainer.innerHTML = '';
             
             listaCursosEvaluador.forEach(curso => {
                 const requiereFecha = cursosConFecha.includes(curso);
@@ -416,10 +407,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     e.target.classList.add(`status-${e.target.value.toLowerCase().replace(/ /g, '-')}`);
                 });
 
-                if(coursesListContainer) coursesListContainer.appendChild(row);
+                coursesListContainer.appendChild(row);
             });
 
-            if(evaluatorContainer) evaluatorContainer.style.display = 'block';
+            evaluatorContainer.style.display = 'block';
         });
     }
 
@@ -443,14 +434,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     });
                 }
             });
-
-            const { error } = await supabaseClient.from('progreso_cursos').upsert(cursosParaGuardar, { onConflict: 'trabajador_id, curso' });
-            if (error) { console.error(error); alert("Error al guardar el progreso."); } 
-            else { alert("¡Progreso guardado en la nube con éxito!"); }
-        });
-    }
-
-    // 5. Imprimir Ruta del Catálogo
+    
+        // 5. Lógica para Imprimir la Ruta del Catálogo
     const btnPrintRoute = document.getElementById('btn-print-route');
     if (btnPrintRoute) {
         btnPrintRoute.addEventListener('click', () => {
@@ -467,11 +452,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <h1 style="margin: 0; color: #E86B6B; font-size: 28px;">Ruta de Entrenamiento</h1>
                         <p style="margin: 5px 0 0 0; color: #718096; font-size: 16px;">Restaurante GUI1 - CORCA</p>
                     </div>
+                    
                     <div style="background-color: #F8F9FA; padding: 20px; border-radius: 10px; margin-bottom: 30px; border: 1px solid #E2E8F0;">
                         <h2 style="margin: 0 0 10px 0; font-size: 22px;">${trabajador.nombre}</h2>
                         <p style="margin: 0; font-size: 14px; color: #4A5568;"><strong>Cargo:</strong> ${trabajador.cargo}</p>
                         <p style="margin: 5px 0 0 0; font-size: 14px; color: #4A5568;"><strong>Fecha de Reporte:</strong> ${fechaHoy}</p>
                     </div>
+
                     <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px;">
                         <thead>
                             <tr style="background-color: #F8F9FA; border-bottom: 2px solid #E2E8F0;">
@@ -507,6 +494,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             htmlReporte += `
                         </tbody>
                     </table>
+
                     <div style="margin-top: 60px; display: flex; justify-content: space-between; text-align: center; font-size: 14px;">
                         <div><p style="border-top: 1px solid #2D3748; padding-top: 8px; width: 200px; margin: 0 auto;">Firma del Entrenador</p></div>
                         <div><p style="border-top: 1px solid #2D3748; padding-top: 8px; width: 200px; margin: 0 auto;">Firma del Colaborador</p></div>
@@ -519,6 +507,87 @@ document.addEventListener('DOMContentLoaded', async () => {
             ventanaImpresion.document.close();
             ventanaImpresion.focus();
             setTimeout(() => { ventanaImpresion.print(); ventanaImpresion.close(); }, 500);
+        });
+    }
+
+        // 7. LÓGICA DEL REPORTE GERENCIAL
+    async function cargarReporteGerencial() {
+        if (!document.getElementById('view-estadisticas')) return;
+
+        // A. Contadores Básicos
+        document.getElementById('gerente-entrenantes').textContent = trabajadoresGlobal.filter(t => t.cargo === 'ENTRENANTE').length;
+        document.getElementById('gerente-expertos').textContent = trabajadoresGlobal.filter(t => t.cargo === 'EXPECTO' || t.cargo === 'EXPERTO').length;
+        document.getElementById('gerente-lecs').textContent = trabajadoresGlobal.filter(t => t.cargo === 'LEC').length;
+        document.getElementById('gerente-entrenadores').textContent = trabajadoresGlobal.filter(t => t.cargo === 'ENTRENADOR').length;
+
+        // B. Traer todo el progreso de los cursos
+        const { data: progreso } = await supabaseClient.from('progreso_cursos').select('*');
+
+        // C. Lógica de Expertos (Radar de verificación)
+        const expertos = trabajadoresGlobal.filter(t => t.cargo === 'EXPERTO');
+        const listaExpertosContainer = document.getElementById('lista-expertos-verificar');
+        listaExpertosContainer.innerHTML = '';
+        
+        let expertosPorVerificar = 0;
+
+        expertos.forEach(exp => {
+            // Buscamos si tiene alguna verificación reciente en sus cursos
+            const cursosExp = progreso.filter(p => p.trabajador_id == exp.id && p.fecha_verificacion);
+            
+            let diasSinVerificar = 999; // Si no tiene ninguna, lo ponemos en rojo
+            
+            if (cursosExp.length > 0) {
+                // Buscamos la fecha más reciente
+                const fechas = cursosExp.map(c => new Date(c.fecha_verificacion).getTime());
+                const fechaMasReciente = new Date(Math.max(...fechas));
+                diasSinVerificar = Math.floor((new Date() - fechaMasReciente) / (1000 * 60 * 60 * 24));
+            }
+
+            if (diasSinVerificar >= 30) {
+                expertosPorVerificar++;
+                listaExpertosContainer.innerHTML += `
+                    <div class="alerta-item">
+                        <span class="alerta-nombre">${exp.nombre}</span>
+                        <span class="alerta-dias">${diasSinVerificar === 999 ? 'Sin verificar' : 'Hace ' + diasSinVerificar + ' días'}</span>
+                    </div>
+                `;
+            }
+        });
+
+        if (expertosPorVerificar === 0) {
+            listaExpertosContainer.innerHTML = '<p style="font-size: 0.85rem; color: #00897B;">✅ Todos los expertos están al día.</p>';
+        }
+
+        // D. Lógica de Entrenantes (Progreso de Ruta)
+        const entrenantes = trabajadoresGlobal.filter(t => t.cargo === 'ENTRENANTE');
+        const listaEntrenantesContainer = document.getElementById('lista-progreso-entrenantes');
+        listaEntrenantesContainer.innerHTML = '';
+
+        // Tomamos los primeros 5 entrenantes para no saturar la pantalla
+        entrenantes.slice(0, 5).forEach(ent => {
+            const cursosEnt = progreso.filter(p => p.trabajador_id == ent.id);
+            const aprobados = cursosEnt.filter(c => c.estado === 'APROBADO').length;
+            
+            // Supongamos que la ruta base tiene 20 cursos críticos
+            const porcentaje = Math.min(Math.round((aprobados / 20) * 100), 100);
+
+            listaEntrenantesContainer.innerHTML += `
+                <div class="barra-item">
+                    <div class="barra-label">
+                        <span>${ent.nombre}</span>
+                        <span>${porcentaje}%</span>
+                    </div>
+                    <div class="barra-track">
+                        <div class="barra-fill" style="width: ${porcentaje}%;"></div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+            const { error } = await supabaseClient.from('progreso_cursos').upsert(cursosParaGuardar, { onConflict: 'trabajador_id, curso' });
+            if (error) { console.error(error); alert("Error al guardar el progreso."); } 
+            else { alert("¡Progreso guardado en la nube con éxito!"); }
         });
     }
 });
